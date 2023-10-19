@@ -29,9 +29,9 @@ export class DataComponent implements OnInit {
     return age;
   }
 
-  async selectPage(i: any) {
+  selectPage(i: any) {
     this.currentPage = i;
-    await this.backendService.getChildren(this.currentPage);
+    this.backendService.getChildren(this.currentPage);
   }
 
   public returnAllPages() {
