@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {Injectable, Input} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { Kindergarden } from './interfaces/Kindergarden';
 import { StoreService } from './store.service';
 import { Child, ChildResponse } from './interfaces/Child';
