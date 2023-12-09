@@ -1,0 +1,10 @@
+<div class="toast" id="toastNotification" role="alert" aria-live="assertive" aria-atomic="true" *ngIf="showNotification" data-bs-animation="true">
+  <div class="toast-header">
+    <strong class="mr-auto">{{notificationTitle}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" (click)="hideToast()"></button>
+  </div>
+  <div class="toast-body">
+    {{notificationMessage}}
+  </div>
+</div>
+

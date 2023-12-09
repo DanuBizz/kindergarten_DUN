@@ -1,0 +1,21 @@
+.toast {
+    z-index: 9999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display:block;
+    width: 35%;
+    height: 15%;
+  }
+
+.toast-header {
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(55, 0, 255);
+}
+
+.toast-header strong {
+    margin-right: 15px;
+}
+

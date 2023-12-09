@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -7,12 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  public title: string = 'Kindergarden-App';
-  public imagePath: string = "./../assets/images/kindergarden.jpg";
+  public title: string = 'Kindergarden SignUP!';
+  public imagePath: string = "./../assets/images/signup2.jpg";
 
-  constructor() { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
   }
 
+  linkDisabled(tabRoute : string): boolean {
+    return this.router.url !== tabRoute;
+  }
 }

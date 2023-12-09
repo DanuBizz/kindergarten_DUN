@@ -1,0 +1,33 @@
+.formcontainer {
+    display: flex;
+    justify-content: center;
+  }
+
+h2 {
+  text-align: center;
+  font-family: "Comic Sans MS";
+  font-weight: bold;
+}
+
+.submitbutton {
+  display: flex;
+  justify-content: center;
+}
+
+.submitbutton button {
+  width: 100%;
+}
+
+.formboxes {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
+  width: 50%;
+
+  .mat-form-field {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}

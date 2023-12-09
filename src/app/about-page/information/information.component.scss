@@ -1,0 +1,71 @@
+header, section {
+  margin-right: 15%;
+  margin-left: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+header p {
+  font-style: italic;
+}
+.about-section-information {
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #c5e6fd;
+}
+.about-section-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.about-section-information img {
+  width: 48%;
+  padding: 5%;
+  align-content: center;
+  background-color: #92cef5;
+}
+.our-mission-section-information {
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #c5e6fd;
+}
+.our-mission-section-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.our-mission-section-information img {
+  width: 48%;
+  padding: 5%;
+  align-content: center;
+  background-color: #92cef5;
+}
+.get-started-information {
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #c5e6fd;
+}
+.get-started-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.get-started-information img {
+  width: 48%;
+  padding: 5%;
+  align-content: center;
+  background-color: #92cef5;
+}

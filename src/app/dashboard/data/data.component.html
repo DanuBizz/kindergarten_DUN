@@ -1,19 +1,45 @@
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Kindergarden</th>
-        <th>Adresse</th>
-        <th>Alter</th>
-        <th>Geburtsdatum</th>
-        <th></th>
-      </tr>
-    <tr *ngFor="let child of storeService.children">
-        <td>{{child.name}}</td>
-        <td>{{child.kindergarden.name}}</td>
-        <td>{{child.kindergarden.address}}</td>
-        <td>{{getAge(child.birthDate)}}</td>
-        <td>{{child.birthDate | date:'longDate'}}</td>
-    </tr>
-</table>
+<table mat-table [dataSource]="storeService.children" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let child">{{ child.name }}</td>
+    </ng-container>
 
-<button [ngClass]="page == currentPage ? 'active' : ''" (click)="selectPage(page)" type="button" *ngFor="let page of returnAllPages() | pagination ">{{page}}</button>
+    <ng-container matColumnDef="kindergarden">
+        <th mat-header-cell *matHeaderCellDef>Kindergarten</th>
+        <td mat-cell *matCellDef="let child">{{ child.kindergarden.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef>Address</th>
+        <td mat-cell *matCellDef="let child">{{ child.kindergarden.address }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef>Age</th>
+        <td mat-cell *matCellDef="let child">{{ getAge(child.birthDate) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="birthDate">
+        <th mat-header-cell *matHeaderCellDef>Birth Date</th>
+        <td mat-cell *matCellDef="let child">{{ child.birthDate | date:'longDate' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="abmelden">
+        <th mat-header-cell *matHeaderCellDef>Abmelden</th>
+        <td mat-cell *matCellDef="let child">
+        <button mat-mini-fab color="primary" aria-label="Button to delete child" (click)="removeChild(child.id)">
+            <mat-icon>delete</mat-icon>
+        </button>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<mat-paginator [length]="this.storeService.childrenTotalCount"
+               [pageSize]="3"
+               [pageIndex]="this.currentPage"
+               [pageSizeOptions]="[3, 5, 10, 25]"
+               [showFirstLastButtons]="true"
+               (page)="selectPage($event)"
+               aria-label="Select page">
+</mat-paginator>

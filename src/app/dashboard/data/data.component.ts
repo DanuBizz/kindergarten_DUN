@@ -1,21 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { BackendService } from 'src/app/shared/backend.service';
-import { CHILDREN_PER_PAGE } from 'src/app/shared/constants';
 import { StoreService } from 'src/app/shared/store.service';
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-data',
   templateUrl: './data.component.html',
-  styleUrls: ['./data.component.scss']
+  styleUrls: ['./data.component.scss'],
 })
 export class DataComponent implements OnInit {
 
-  constructor(public storeService: StoreService, private backendService: BackendService) {}
-  public currentPage: number = 1;
-  public page: number = 0;
+
+  constructor(public storeService: StoreService, public backendService: BackendService) {}
+
+  @Input() currentPage! : number;
+  @Output() sendPage = new EventEmitter<number>();
+  @Output() sendPageSize = new EventEmitter<number>();
+  @Output() showToast = new EventEmitter<{title : string, message : string, show : boolean}>();
+  @ViewChild(MatPaginator) paginator! : MatPaginator;
+
+
+  displayedColumns : string[] = ['name', 'kindergarden', 'address', 'age', 'birthDate', 'abmelden'];
 
   ngOnInit(): void {
-    this.backendService.getChildren(this.currentPage);
+    this.backendService.getChildren(this.currentPage, this.backendService.defaultPageSize);
   }
 
   getAge(birthDate: string) {
@@ -29,13 +37,20 @@ export class DataComponent implements OnInit {
     return age;
   }
 
-  selectPage(i: any) {
-    this.currentPage = i;
-    this.backendService.getChildren(this.currentPage);
+  selectPage(pageEvent: PageEvent) {
+    this.sendPage.emit(this.paginator.pageIndex);
+    this.sendPageSize.emit(this.paginator.pageSize);
+    this.backendService.getChildren(this.paginator.pageIndex, pageEvent.pageSize);
   }
 
-  public returnAllPages() {
-    return Math.ceil(this.storeService.childrenTotalCount / CHILDREN_PER_PAGE)
+  removeChild (childId : string) {
+    this.backendService.deleteChild(childId, this.currentPage, this.paginator.pageSize);
+    const childData = this.storeService.children.find(
+      child => child.id === childId
+    );
+    this.showToast.emit({title : `${childData!.name} abgemeldet!`,
+            message : `${childData!.name} wurde vom ${childData?.kindergarden.name} abgemeldet!`,
+            show : true});
   }
 }
 

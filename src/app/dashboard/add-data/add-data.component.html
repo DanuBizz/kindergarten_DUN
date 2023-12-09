@@ -1,11 +1,37 @@
-<form [formGroup]="addChildForm" (ngSubmit)="onSubmit()">
+<div class="formcontainer">
+<form [formGroup]="addChildForm" (ngSubmit)="onSubmit()" class="formboxes">
     <h2>Ihr Kind anmelden!</h2>
-    <input placeholder="Name" type="input" formControlName="name"><br />
-    <input placeholder="Geburtsdatum" type="date" formControlName="birthDate"><br />
-    <select formControlName="kindergardenId">
-        <option value="" disabled>Bitte auswählen</option>
-        <option *ngFor="let kindergarden of storeService.kindergardens" [ngValue]="kindergarden.id">
-            {{kindergarden.name}}, {{kindergarden.address}}</option>
-    </select>
-    <button type="submit">Erfassen</button>
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Vor-/Nachname" type="text" formControlName="name" required>
+        <mat-error *ngIf="addChildForm.get('name').hasError('required')">Vor-/Nachname ist erforderlich!</mat-error>
+        <mat-hint>Vorname + Nachname</mat-hint>
+    </mat-form-field>
+    <br />
+    <mat-divider></mat-divider>
+    <br />
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Geburtsdatum" [matDatepicker]="picker" formControlName="birthDate" required>
+        <mat-error *ngIf="addChildForm.get('birthDate').hasError('required')">Geburtsdatum ist erforderlich!</mat-error>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <mat-form-field appearance="fill" class="addressformbox">
+        <mat-label>Kindergarten</mat-label>
+        <mat-select formControlName="kindergardenId" required>
+            <mat-option value="" disabled>Bitte auswählen</mat-option>
+            <mat-option *ngFor="let kindergarden of storeService.kindergardens" [value]="kindergarden.id">
+                {{kindergarden.name}}, {{kindergarden.address}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-divider></mat-divider>
+    <br />
+    <div class="submitbutton">
+    <button mat-raised-button color="primary" type="submit" [disabled]="!addChildForm.valid">Erfassen</button>
+    </div>
 </form>
+</div>

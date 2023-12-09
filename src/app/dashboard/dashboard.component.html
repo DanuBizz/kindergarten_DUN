@@ -1,2 +1,7 @@
-<app-data></app-data>
-<app-add-data></app-add-data>
+<app-data [currentPage]="currentPage" (sendPage)="receivePage($event)" (showToast)="displayToast($event)" (sendPageSize)="getPageSize($event)"></app-data>
+<br>
+<app-button class="formbutton" [isActive]="isFormOpen" (sendState)="openForm($event)"></app-button>
+<br>
+<app-notification [notificationTitle]="notification.title" [notificationMessage]="notification.message" [showNotification]="notification.show"></app-notification>
+<br>
+<app-add-data [currentPage]="currentPage" [currentPageSize]="currentPageSize" *ngIf="isFormOpen" (showToast)="displayToast($event)"></app-add-data>
