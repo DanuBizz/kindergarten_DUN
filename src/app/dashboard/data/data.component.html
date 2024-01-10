@@ -1,44 +1,68 @@
-<table mat-table [dataSource]="storeService.children" class="mat-elevation-z8">
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let child">{{ child.name }}</td>
-    </ng-container>
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{ selectedKindergarden ? selectedKindergarden.name : 'All Kindergardens (Please select Kindergarden to filter)' }}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" (click)="selectKindergarten(null)">All Kindergardens</a>
+    <div *ngFor="let kg of storeService.kindergardens">
+      <a class="dropdown-item" (click)="selectKindergarten(kg)">{{ kg.name }}</a>
+    </div>
+  </div>
+</div>
+<br>
+<table mat-table [dataSource]="datasource" matSort class="mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">Name</th>
+    <td mat-cell *matCellDef="let child">{{ child.name }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="kindergarden">
-        <th mat-header-cell *matHeaderCellDef>Kindergarten</th>
-        <td mat-cell *matCellDef="let child">{{ child.kindergarden.name }}</td>
-    </ng-container>
+  <ng-container matColumnDef="kindergardenId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by kindergardenId">Kindergarden</th>
+    <td mat-cell *matCellDef="let child">{{ child.kindergarden.name }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef>Address</th>
-        <td mat-cell *matCellDef="let child">{{ child.kindergarden.address }}</td>
-    </ng-container>
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef>Address</th>
+    <td mat-cell *matCellDef="let child">{{ child.kindergarden.address }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="age">
-        <th mat-header-cell *matHeaderCellDef>Age</th>
-        <td mat-cell *matCellDef="let child">{{ getAge(child.birthDate) }}</td>
-    </ng-container>
+  <ng-container matColumnDef="age">
+    <th mat-header-cell *matHeaderCellDef>Age</th>
+    <td mat-cell *matCellDef="let child">{{ getAge(child.birthDate) }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="birthDate">
-        <th mat-header-cell *matHeaderCellDef>Birth Date</th>
-        <td mat-cell *matCellDef="let child">{{ child.birthDate | date:'longDate' }}</td>
-    </ng-container>
+  <ng-container matColumnDef="birthDate">
+    <th mat-header-cell *matHeaderCellDef>Birth Date</th>
+    <td mat-cell *matCellDef="let child">{{ child.birthDate | date:'longDate' }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="abmelden">
-        <th mat-header-cell *matHeaderCellDef>Abmelden</th>
-        <td mat-cell *matCellDef="let child">
-        <button mat-mini-fab color="primary" aria-label="Button to delete child" (click)="removeChild(child.id)">
-            <mat-icon>delete</mat-icon>
+  <ng-container matColumnDef="signUp">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by signUp">SignUP! Date</th>
+    <td mat-cell *matCellDef="let child">{{ child.signUp | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="abmelden">
+    <th mat-header-cell *matHeaderCellDef>SIGN OUT</th>
+    <td mat-cell *matCellDef="let child">
+      <div class="removeButton">
+        <button mat-mini-fab color="primary" *ngIf="deletingChildId !== child.id"
+                aria-label="Button to delete child" (click)="removeChild(child.id)">
+          <mat-icon>delete</mat-icon>
         </button>
-        </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </div>
+      <div class="spinner">
+        <mat-progress-spinner *ngIf="deletingChildId === child.id" mode="indeterminate" diameter="25"
+                              color="accent"></mat-progress-spinner>
+      </div>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 <mat-paginator [length]="this.storeService.childrenTotalCount"
-               [pageSize]="3"
+               [pageSize]="5"
                [pageIndex]="this.currentPage"
-               [pageSizeOptions]="[3, 5, 10, 25]"
+               [pageSizeOptions]="[5, 10, 25]"
                [showFirstLastButtons]="true"
                (page)="selectPage($event)"
                aria-label="Select page">

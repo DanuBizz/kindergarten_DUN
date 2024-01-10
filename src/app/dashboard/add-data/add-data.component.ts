@@ -22,23 +22,29 @@ export class AddDataComponent implements OnInit {
     this.addChildForm = this.formbuilder.group({
       name: ['', [Validators.required]],
       kindergardenId: ['', Validators.required],
-      birthDate: [null, Validators.required]
-    })
+      birthDate: [null, Validators.required],
+      signUp: [new Date, Validators.required]
+    });
   }
 
   onSubmit() {
     if (this.addChildForm.valid) {
       const addedChildData = this.addChildForm.value;
+      addedChildData.signUp = new Date();
       const matchingKindergarden = this.storeService.kindergardens.find(
         kg => kg.id === addedChildData.kindergardenId
       );
-      this.backendService.addChildData(addedChildData, this.currentPage, this.currentPageSize);
+      this.backendService.addChildData(addedChildData, this.currentPage, this.currentPageSize).subscribe(data => {
+        console.log(data);
+        this.addChildForm.reset();
       this.showToast.emit({
-        title: `${addedChildData.name} erfolgreich angemeldet!`,
-        message: `${addedChildData.name} erfolgreich im ${matchingKindergarden!.name} angemeldet!`,
+        title: `${addedChildData.name} signed up successfully!`,
+        message: `${addedChildData.name} successfully signed up in ${matchingKindergarden!.name}`,
         show: true
       });
-      this.addChildForm.reset();
+    }, error => {
+      console.error("Form submission error:", error);
+    });
     } else {
       console.error("Formular issue: " + this.addChildForm.errors);
     }

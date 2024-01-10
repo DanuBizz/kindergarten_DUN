@@ -1,17 +1,19 @@
 <div class="formcontainer">
 <form [formGroup]="addChildForm" (ngSubmit)="onSubmit()" class="formboxes">
-    <h2>Ihr Kind anmelden!</h2>
+    <h2>SignUP! HERE</h2>
     <mat-form-field appearance="fill">
-        <input matInput placeholder="Vor-/Nachname" type="text" formControlName="name" required>
-        <mat-error *ngIf="addChildForm.get('name').hasError('required')">Vor-/Nachname ist erforderlich!</mat-error>
-        <mat-hint>Vorname + Nachname</mat-hint>
+      <mat-label>First-/Lastname</mat-label>
+        <input matInput placeholder="John Doe" type="text" formControlName="name" required>
+        <mat-error *ngIf="addChildForm.get('name').hasError('required')">First- and Lastname required!</mat-error>
+        <mat-hint>Last + Firstname</mat-hint>
     </mat-form-field>
     <br />
     <mat-divider></mat-divider>
     <br />
     <mat-form-field appearance="fill">
-        <input matInput placeholder="Geburtsdatum" [matDatepicker]="picker" formControlName="birthDate" required>
-        <mat-error *ngIf="addChildForm.get('birthDate').hasError('required')">Geburtsdatum ist erforderlich!</mat-error>
+      <mat-label>Birthdate</mat-label>
+        <input matInput placeholder="22/07/2020" [matDatepicker]="picker" formControlName="birthDate" required>
+        <mat-error *ngIf="addChildForm.get('birthDate').hasError('required')">Birthdate required!</mat-error>
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -20,9 +22,9 @@
     <mat-divider></mat-divider>
     <br>
     <mat-form-field appearance="fill" class="addressformbox">
-        <mat-label>Kindergarten</mat-label>
-        <mat-select formControlName="kindergardenId" required>
-            <mat-option value="" disabled>Bitte auswählen</mat-option>
+      <mat-label>Select Kindergarden</mat-label>
+        <mat-select formControlName="kindergardenId" required placeholder="Kindergarden xy">
+            <mat-option value="" disabled>Please choose Kindergarden</mat-option>
             <mat-option *ngFor="let kindergarden of storeService.kindergardens" [value]="kindergarden.id">
                 {{kindergarden.name}}, {{kindergarden.address}}
             </mat-option>
@@ -31,7 +33,7 @@
     <mat-divider></mat-divider>
     <br />
     <div class="submitbutton">
-    <button mat-raised-button color="primary" type="submit" [disabled]="!addChildForm.valid">Erfassen</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!addChildForm.valid">SignUP!</button>
     </div>
 </form>
 </div>

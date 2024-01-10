@@ -26,6 +26,12 @@ import { InformationComponent } from './about-page/information/information.compo
 import {AboutPageComponent} from "./about-page/about-page.component";
 import { FooterComponent } from './footer/footer.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import {MatSortModule} from "@angular/material/sort";
+import { KindergardensComponent } from './kindergardens/kindergardens.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -39,7 +45,9 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     ButtonComponent,
     NotificationComponent,
     InformationComponent,
-    FooterComponent
+    FooterComponent,
+    LoadingSpinnerComponent,
+    KindergardensComponent
   ],
   imports: [
     BrowserModule,
@@ -56,8 +64,12 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     MatPaginatorModule,
     MatToolbarModule,
+    MatSortModule,
+    MatTabsModule,
+    MatMenuModule,
     BrowserAnimationsModule
   ],
   providers: [],

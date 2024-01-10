@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from './shared/backend.service';
+import {StoreService} from "./shared/store.service";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { BackendService } from './shared/backend.service';
 export class AppComponent implements OnInit {
   title = 'kindergardenApp';
 
-  constructor(private backendService: BackendService) {}
+  constructor(private backendService: BackendService, public storeService : StoreService) {}
 
   ngOnInit(): void {
     this.backendService.getKindergardens();

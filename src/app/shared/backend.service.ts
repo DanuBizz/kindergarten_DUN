@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import { Kindergarden } from './interfaces/Kindergarden';
 import { StoreService } from './store.service';
 import { Child, ChildResponse } from './interfaces/Child';
+import {catchError, map, Observable, switchMap, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,32 +12,35 @@ export class BackendService {
 
   constructor(private http: HttpClient, private storeService: StoreService) { }
 
-  public defaultPageSize = 3;
+  public defaultPageSize = 5;
 
   public getKindergardens() {
     this.http.get<Kindergarden[]>('http://localhost:5000/kindergardens').subscribe(data => {
       this.storeService.kindergardens = data;
+      this.storeService.isLoading = false;
     });
   }
-
-  public getChildren(pageIndex: number, pageSize: number) {
+  public getAllChildren(){
+    return this.http.get<ChildResponse[]>(`http://localhost:5000/childs?_expand=kindergarden`);
+  }
+  public getChildren(pageIndex: number, pageSize: number): Observable<ChildResponse[]>{
     const startIndex = pageIndex * pageSize;
-    this.http.get<ChildResponse[]>(`http://localhost:5000/childs?_expand=kindergarden&_start=${startIndex}&_limit=${pageSize}`, { observe: 'response' }).subscribe(data => {
+    return this.http.get<ChildResponse[]>(`http://localhost:5000/childs?_expand=kindergarden&_start=${startIndex}&_limit=${pageSize}`, { observe: 'response' })
+      .pipe(map(data => {
       console.log(data.headers.get('X-Total-Count'));
       this.storeService.children = data.body!;
       this.storeService.childrenTotalCount = Number(data.headers.get('X-Total-Count'));
-    });
+      return this.storeService.children;
+    }));
   }
 
   public addChildData(child: Child, pageIndex: number, pageSize: number) {
-    this.http.post('http://localhost:5000/childs', child).subscribe(data => {
-      this.getChildren(pageIndex, pageSize);
-    });
+    return this.http.post('http://localhost:5000/childs', child).pipe(
+      switchMap(() => this.getChildren(pageIndex, pageSize))
+    );
   }
 
   public deleteChild(childId: string, pageIndex: number, pageSize: number) {
-    this.http.delete(`http://localhost:5000/childs/${childId}`).subscribe(data => {
-      this.getChildren(pageIndex, pageSize);
-    });
+    return this.http.delete(`http://localhost:5000/childs/${childId}`);
   }
 }
