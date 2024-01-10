@@ -1,4 +1,6 @@
-<app-data [currentPage]="currentPage" (sendPage)="receivePage($event)" (showToast)="displayToast($event)" (sendPageSize)="getPageSize($event)"></app-data>
+<div class="app-data-container">
+  <app-data [currentPage]="currentPage" (sendPage)="receivePage($event)" (showToast)="displayToast($event)" (sendPageSize)="getPageSize($event)"></app-data>
+</div>
 <br>
 <app-button class="formbutton" [isActive]="isFormOpen" (sendState)="openForm($event)"></app-button>
 <br>
